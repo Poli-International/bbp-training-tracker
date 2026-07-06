@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    if (window.self !== window.top) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'poli-theme') {
+          document.documentElement.setAttribute('data-theme', e.data.light ? 'light' : 'dark');
+        }
+      });
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track bloodborne pathogen training certifications for your studio staff. Monitor renewal dates, flag expired and expiring-soon certs. LocalStorage — no account needed.">
+  <title>Bloodborne Pathogen Training Tracker | Poli International</title>
+  <link rel="stylesheet" href="/tools/bbp-training-tracker/css/style.css">
+</head>
+<body>
+<div class="tool-wrapper">
+
+  <header class="tool-header">
+    <div class="tool-header__badge">🩸 BBP Compliance</div>
+    <h1>Bloodborne Pathogen Training Tracker</h1>
+    <p>Track staff BBP certifications, completion dates, and renewal deadlines. Data stays in your browser — nothing is uploaded or shared.</p>
+  </header>
+
+  <div class="add-card">
+    <h2 class="add-title">Add Staff Record</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="staff-name">Staff Name</label>
+        <input type="text" id="staff-name" class="input-field" placeholder="e.g. Jordan Lee">
+      </div>
+      <div class="form-field">
+        <label for="cert-type">Certification</label>
+        <select id="cert-type" class="input-field">
+          <option value="">Select…</option>
+          <option value="OSHA BBP (annual)">OSHA BBP (annual)</option>
+          <option value="Red Cross BBP (annual)">Red Cross BBP (annual)</option>
+          <option value="ProTrainings BBP (annual)">ProTrainings BBP (annual)</option>
+          <option value="NHF Bloodborne Pathogens">NHF Bloodborne Pathogens</option>
+          <option value="Custom (annual)">Custom (annual)</option>
+          <option value="Custom (biennial)">Custom (biennial)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="completed-date">Date Completed</label>
+        <input type="date" id="completed-date" class="input-field">
+      </div>
+      <div class="form-field">
+        <label for="renewal-months">Renewal (months)</label>
+        <input type="number" id="renewal-months" class="input-field" value="12" min="1" max="60">
+      </div>
+      <div class="form-field form-field--wide">
+        <label for="record-notes">Notes <span class="opt-label">optional</span></label>
+        <input type="text" id="record-notes" class="input-field" placeholder="e.g. cert number, training provider URL">
+      </div>
+    </div>
+    <button id="add-btn" class="add-btn">Add Record</button>
+  </div>
+
+  <div class="log-controls">
+    <div id="log-count" class="log-count"></div>
+    <div class="log-actions">
+      <button id="export-btn" class="ctrl-btn">Export CSV</button>
+      <button id="clear-btn" class="ctrl-btn ctrl-btn--danger">Clear All</button>
+    </div>
+  </div>
+
+  <div id="records-wrap">
+    <div id="empty-state" class="empty-state">No records yet. Add your first staff member above.</div>
+    <table id="records-table" class="log-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Certification</th>
+          <th>Completed</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th>Notes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="records-body"></tbody>
+    </table>
+  </div>
+
+</div>
+<script src="/tools/bbp-training-tracker/js/app.js"></script>
+</body>
+</html>
