@@ -6,7 +6,7 @@
 [![Last Commit](https://img.shields.io/github/last-commit/Poli-International/bbp-training-tracker)](https://github.com/Poli-International/bbp-training-tracker/commits/main)
 [![GitHub Stars](https://img.shields.io/github/stars/Poli-International/bbp-training-tracker?style=social)](https://github.com/Poli-International/bbp-training-tracker/stargazers)
 
-**Live Demo:** [https://poliinternational.com/tools/bbp-training-tracker/](https://poliinternational.com/tools/bbp-training-tracker/)
+**Live Demo:** [https://poliinternational.com/bbp-training-tracker/](https://poliinternational.com/bbp-training-tracker/)
 
 ---
 
@@ -22,14 +22,16 @@ This is a free, open-source widget from the [Poli International Widget Suite](ht
 
 ## ✨ Features
 
-- ✅ **BBP Training Tracker**
-- ✅ **Bloodborne Pathogen Certification**
-- ✅ **Infection Control Compliance Studio**
-- ✅ **OSHA BBP Tattoo Studio**
-- ✅ **Hepatitis B Training Piercing**
-- ✅ **Staff Compliance Log**
-- ✅ **Responsive Design** - works on desktop, tablet, and mobile.
-- ✅ **Free & Open Source** - MIT licensed.
+- **Staff Training Log**: Track staff member names, studio roles, training completion dates, providers, and certificate filing locations.
+- **Configurable Renewal Cycles**: Support for 12-month annual, 24-month, 36-month, or custom renewal cycles.
+- **Expiry Horizon Tracking**: Real-time status badges and summary counts for lapsed, 30-day, 60-day, and 90-day renewal deadlines.
+- **Multi-Studio Profiles**: Maintain separate records across multiple studio locations, departments, or rooms.
+- **Inspection Readiness**: a one-page printable roster, a printable record card per person, and a self-check of your own record keeping. The card states that it reproduces the studio's own record and is not a certificate.
+- **Data Portability**: Full CSV import/export with column mapping, and JSON backup and restore.
+- **Privacy by Architecture**: 100% client-side execution in local browser storage; zero external network requests or account requirements.
+- **Multilingual Support**: Fully translated across 7 languages (English, French, Italian, German, Spanish, Dutch, and Portuguese).
+- **Responsive Design**: Mobile-friendly layout with dark and light theme support.
+- **Free & Open Source**: MIT licensed.
 
 ---
 
@@ -76,7 +78,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Get Help
 
-- 📧 **Email**: <support@poliinternational.com>
+- 📧 **Email**: <patrick@poli-international.com>
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Poli-International/bbp-training-tracker/issues)
 
 ---
