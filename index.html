@@ -1,94 +1,635 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta name="robots" content="noindex, nofollow">
-  <script>
-    if (window.self !== window.top) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      window.addEventListener('message', function(e) {
-        if (e.data && e.data.type === 'poli-theme') {
-          document.documentElement.setAttribute('data-theme', e.data.light ? 'light' : 'dark');
-        }
-      });
-    }
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Track bloodborne pathogen training certifications for your studio staff. Monitor renewal dates, flag expired and expiring-soon certs. LocalStorage — no account needed.">
-  <title>Bloodborne Pathogen Training Tracker | Poli International</title>
-  <link rel="stylesheet" href="/tools/bbp-training-tracker/css/style.css">
-</head>
-<body>
-<div class="tool-wrapper">
+  <head>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="meta.title">Bloodborne Pathogen Training Tracker | Poli International</title>
+    <meta name="description" content="Track staff bloodborne pathogen training dates, providers, expiry windows (30, 60, 90 days), certificate filing locations, and export or print inspection rosters." />
+    <meta property="og:title" content="Bloodborne Pathogen Training Tracker | Poli International" />
+    <meta property="og:description" content="Track staff bloodborne pathogen training dates, providers, expiry windows (30, 60, 90 days), certificate filing locations, and export or print inspection rosters." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BBP Tracker" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script>
+      if (window.self !== window.top) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        window.addEventListener('message', function(e) {
+          if (e.data && e.data.type === 'poli-theme') {
+            document.documentElement.setAttribute('data-theme', e.data.light ? 'light' : 'dark');
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="tool-wrapper" class="tool-wrapper">
+      
+      <!-- Top Bar: Badge, Related Tools, Theme Toggle -->
+      <div id="header-top-bar" class="header-top-bar no-print">
+        <div class="top-bar-left">
+          <span id="compliance-badge" class="tool-badge" data-i18n="header.badge">BBP Compliance Tracking</span>
+          <nav id="related-tools-nav" class="related-tools-nav" aria-label="Related studio tools" data-i18n-aria="nav.relatedAria">
+            <span class="related-label" data-i18n="nav.relatedHeading">Related Studio Safety Tools:</span>
+            <a href="https://poliinternational.com/sharps-disposal-tracker/" class="related-link" target="_top" id="link-sharps-tracker" data-i18n="nav.sharpsTool">Sharps Disposal Tracker</a>
+            <span class="related-sep">•</span>
+            <a href="https://poliinternational.com/autoclave-calculator/" class="related-link" target="_top" id="link-autoclave-calc" data-i18n="nav.autoclaveTool">Autoclave Calculator</a>
+          </nav>
+        </div>
+        <div class="top-bar-right">
+          <button type="button" id="audit-checklist-btn" class="audit-badge-btn" data-i18n="audit.btnTitle">📋 Inspection Audit Checklist</button>
+          <label for="language-select" class="sr-only" data-i18n="common.languageLabel">Language</label>
+          <select id="language-select" class="lang-select" aria-label="Select language" data-i18n-aria="common.languageLabel">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="pt">Português</option>
+            <option value="nl">Nederlands</option>
+          </select>
+          <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle visual theme" data-i18n-aria="header.themeToggleAria" data-i18n="header.themeToggleLight">☀️ Light Mode</button>
+        </div>
+      </div>
 
-  <header class="tool-header">
-    <div class="tool-header__badge">🩸 BBP Compliance</div>
-    <h1>Bloodborne Pathogen Training Tracker</h1>
-    <p>Track staff BBP certifications, completion dates, and renewal deadlines. Data stays in your browser — nothing is uploaded or shared.</p>
-  </header>
+      <!-- Studio Location / Department Profile Switcher Bar -->
+      <div id="profile-switcher-bar" class="profile-switcher-bar no-print">
+        <div class="profile-selector-group">
+          <label for="profile-select" class="profile-select-label" data-i18n="profile.label">Studio Profile:</label>
+          <select id="profile-select" class="profile-select" data-i18n-aria="profile.selectAria"></select>
+          <button type="button" id="btn-add-profile" class="profile-action-btn" title="Create new studio or room profile" data-i18n-title="profile.addTitle" data-i18n="profile.addBtn">+ New Profile</button>
+          <button type="button" id="btn-manage-profile" class="profile-action-btn" title="Manage or rename active profile" data-i18n-title="profile.manageTitle" data-i18n="profile.manageBtn">Manage</button>
+        </div>
+        <div class="profile-bar-right">
+          <div class="auto-backup-indicator" id="auto-backup-indicator" title="All changes are automatically backed up in your local browser storage" data-i18n-title="autoBackup.title">
+            <span class="auto-backup-icon" aria-hidden="true">💾</span>
+            <span id="auto-backup-text" data-i18n="autoBackup.savedJustNow">Auto-Saved</span>
+          </div>
+          <div class="profile-current-badge">
+            <span class="profile-pill-label" data-i18n="profile.activePill">Active Studio Profile:</span>
+            <strong id="active-profile-name">Main Studio</strong>
+          </div>
+        </div>
+      </div>
 
-  <div class="add-card">
-    <h2 class="add-title">Add Staff Record</h2>
-    <div class="form-grid">
-      <div class="form-field">
-        <label for="staff-name">Staff Name</label>
-        <input type="text" id="staff-name" class="input-field" placeholder="e.g. Jordan Lee">
-      </div>
-      <div class="form-field">
-        <label for="cert-type">Certification</label>
-        <select id="cert-type" class="input-field">
-          <option value="">Select…</option>
-          <option value="OSHA BBP (annual)">OSHA BBP (annual)</option>
-          <option value="Red Cross BBP (annual)">Red Cross BBP (annual)</option>
-          <option value="ProTrainings BBP (annual)">ProTrainings BBP (annual)</option>
-          <option value="NHF Bloodborne Pathogens">NHF Bloodborne Pathogens</option>
-          <option value="Custom (annual)">Custom (annual)</option>
-          <option value="Custom (biennial)">Custom (biennial)</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label for="completed-date">Date Completed</label>
-        <input type="date" id="completed-date" class="input-field">
-      </div>
-      <div class="form-field">
-        <label for="renewal-months">Renewal (months)</label>
-        <input type="number" id="renewal-months" class="input-field" value="12" min="1" max="60">
-      </div>
-      <div class="form-field form-field--wide">
-        <label for="record-notes">Notes <span class="opt-label">optional</span></label>
-        <input type="text" id="record-notes" class="input-field" placeholder="e.g. cert number, training provider URL">
+      <!-- Main Header -->
+      <header id="tool-header" class="tool-header no-print">
+        <h1 id="main-title" data-i18n="header.title">Bloodborne Pathogen Training Tracker</h1>
+        <p id="main-subtitle" class="tool-subtitle" data-i18n="header.subtitle">Log staff training dates, providers, and certificate filing locations. Monitor 30, 60, and 90-day renewal deadlines with inspection-ready printouts and CSV portability.</p>
+        <p id="storage-notice" class="storage-notice" data-i18n="header.storageNotice">Data stays entirely in your browser: zero accounts, zero cloud transmission.</p>
+      </header>
+
+      <!-- Administrative Tool Disclaimer Banner -->
+      <aside id="disclaimer-banner" class="disclaimer-banner no-print" role="note">
+        <svg class="disclaimer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span id="disclaimer-text" data-i18n="disclaimer.banner">Administrative tool only. This tracker logs training records and does not substitute for accredited bloodborne pathogen training or certify jurisdictional compliance.</span>
+      </aside>
+
+      <!-- Visual Compliance Overview & Donut Chart Section -->
+
+      <!-- Expiry View Summary Cards (30, 60, 90 Day Horizons & Lapsed) -->
+      <section id="expiry-summary-section" class="expiry-summary-section no-print" aria-label="Training renewal status overview" data-i18n-aria="summary.ariaOverview">
+        <div class="summary-card filter-card active" data-filter="all" id="card-filter-all" role="button" tabindex="0">
+          <div class="summary-card-header">
+            <span class="summary-label" data-i18n="summary.totalStaff">Total Staff Logged</span>
+          </div>
+          <div class="summary-value" id="count-total">0</div>
+          <div class="summary-sub" data-i18n="summary.totalStaffSub">All active records</div>
+        </div>
+
+        <div class="summary-card filter-card status-card-lapsed" data-filter="lapsed" id="card-filter-lapsed" role="button" tabindex="0">
+          <div class="summary-card-header">
+            <span class="status-indicator-icon indicator-lapsed">●</span>
+            <span class="summary-label" data-i18n="summary.lapsed">Already Lapsed</span>
+          </div>
+          <div class="summary-value text-lapsed" id="count-lapsed">0</div>
+          <div class="summary-sub" data-i18n="summary.lapsedSub">Immediate renewal needed</div>
+        </div>
+
+        <div class="summary-card filter-card status-card-30" data-filter="30" id="card-filter-30" role="button" tabindex="0">
+          <div class="summary-card-header">
+            <span class="status-indicator-icon indicator-30">▲</span>
+            <span class="summary-label" data-i18n="summary.within30">Due in 30 Days</span>
+          </div>
+          <div class="summary-value text-30" id="count-30">0</div>
+          <div class="summary-sub" data-i18n="summary.within30Sub">Renewal window open</div>
+        </div>
+
+        <div class="summary-card filter-card status-card-60" data-filter="60" id="card-filter-60" role="button" tabindex="0">
+          <div class="summary-card-header">
+            <span class="status-indicator-icon indicator-60">◆</span>
+            <span class="summary-label" data-i18n="summary.within60">Due in 60 Days</span>
+          </div>
+          <div class="summary-value text-60" id="count-60">0</div>
+          <div class="summary-sub" data-i18n="summary.within60Sub">Schedule upcoming session</div>
+        </div>
+
+        <div class="summary-card filter-card status-card-90" data-filter="90" id="card-filter-90" role="button" tabindex="0">
+          <div class="summary-card-header">
+            <span class="status-indicator-icon indicator-90">■</span>
+            <span class="summary-label" data-i18n="summary.within90">Due in 90 Days</span>
+          </div>
+          <div class="summary-value text-90" id="count-90">0</div>
+          <div class="summary-sub" data-i18n="summary.within90Sub">Advance planning horizon</div>
+        </div>
+      </section>
+
+      <!-- Record Entry / Edit Form Card -->
+      <section id="record-form-card" class="record-form-card no-print" aria-labelledby="form-card-title">
+        <div class="card-header-row">
+          <h2 id="form-card-title" class="form-title" data-i18n="form.title">Add Staff Training Record</h2>
+          <button id="cancel-edit-btn" class="cancel-edit-btn" type="button" style="display: none;" data-i18n="form.cancelEdit">Cancel Edit</button>
+        </div>
+
+        <form id="training-record-form" class="form-grid" novalidate>
+          <input type="hidden" id="edit-record-id" value="" />
+
+          <!-- Staff Name -->
+          <div class="form-field">
+            <label for="staff-name" class="field-label">
+              <span data-i18n="form.nameLabel">Staff Member Name</span>
+              <span class="required-star">*</span>
+            </label>
+            <input type="text" id="staff-name" class="input-field" data-i18n-placeholder="form.namePlaceholder" placeholder="e.g. Alex Morgan" autocomplete="off" required />
+          </div>
+
+          <!-- Studio Role -->
+          <div class="form-field">
+            <label for="staff-role" class="field-label">
+              <span data-i18n="form.roleLabel">Studio Role</span>
+            </label>
+            <input type="text" id="staff-role" class="input-field" list="role-suggestions" data-i18n-placeholder="form.rolePlaceholder" placeholder="e.g. Body Piercer, Tattoo Artist, Counter Staff" autocomplete="off" />
+            <datalist id="role-suggestions"></datalist>
+          </div>
+
+          <!-- Training Date -->
+          <div class="form-field">
+            <label for="training-date" class="field-label">
+              <span data-i18n="form.dateLabel">Training Date</span>
+              <span class="required-star">*</span>
+            </label>
+            <input type="date" id="training-date" class="input-field" required />
+          </div>
+
+          <!-- Training Provider (as typed) -->
+          <div class="form-field">
+            <label for="training-provider" class="field-label">
+              <span data-i18n="form.providerLabel">Training Provider</span>
+              <span class="required-star">*</span>
+            </label>
+            <input type="text" id="training-provider" class="input-field" list="provider-suggestions" data-i18n-placeholder="form.providerPlaceholder" placeholder="e.g. Red Cross, ProTrainings, Local Health Dept" autocomplete="off" required />
+            <datalist id="provider-suggestions"></datalist>
+          </div>
+
+          <!-- Renewal Interval -->
+          <div class="form-field">
+            <label for="renewal-period" class="field-label">
+              <span data-i18n="form.renewalLabel">Renewal Period</span>
+            </label>
+            <div class="renewal-input-group">
+              <select id="renewal-period" class="input-field select-field">
+                <option value="12" selected data-i18n="form.monthsOption12">12 Months (Annual)</option>
+                <option value="24" data-i18n="form.monthsOption24">24 Months (Biennial)</option>
+                <option value="36" data-i18n="form.monthsOption36">36 Months (3 Years)</option>
+                <option value="custom" data-i18n="form.monthsOptionCustom">Custom Months</option>
+              </select>
+              <input type="number" id="custom-renewal-months" class="input-field custom-months-field" min="1" max="120" value="12" style="display:none;" aria-label="Custom renewal months" data-i18n-aria="form.customMonthsAria" />
+            </div>
+          </div>
+
+          <!-- Certificate Filing Reference -->
+          <div class="form-field">
+            <label for="filing-ref" class="field-label">
+              <span data-i18n="form.filingLabel">Certificate Filing Reference</span>
+              <span class="opt-hint" data-i18n="form.filingHint">(location note, not an upload)</span>
+            </label>
+            <input type="text" id="filing-ref" class="input-field" data-i18n-placeholder="form.filingPlaceholder" placeholder="e.g. Binder A - Tab 4, Staff Drive / Alex-BBP.pdf, Cabinet 2" autocomplete="off" />
+          </div>
+
+          <!-- Notes -->
+          <div class="form-field form-field-full">
+            <label for="record-notes" class="field-label">
+              <span data-i18n="form.notesLabel">Additional Notes</span>
+            </label>
+            <input type="text" id="record-notes" class="input-field" data-i18n-placeholder="form.notesPlaceholder" placeholder="e.g. Certificate ID #, state permit number, renewal notes" autocomplete="off" />
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions-row form-field-full">
+            <button type="submit" id="submit-record-btn" class="primary-action-btn" data-i18n="form.submitAdd">Add Record</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Inspection Print Header (Visible ONLY during print) -->
+      <section id="print-inspection-header" class="print-only inspection-print-header" aria-hidden="true">
+        <div class="print-header-top">
+          <div>
+            <h1 class="print-title" data-i18n="print.title">Bloodborne Pathogen Training Compliance Roster</h1>
+            <p class="print-subtitle" data-i18n="print.inspectionNotice">Official studio administrative record of staff bloodborne pathogen and infection control training completion.</p>
+          </div>
+          <div class="print-meta-box">
+            <div class="print-meta-item">
+              <strong data-i18n="print.generatedOn">Generated on:</strong>
+              <span id="print-date-display"></span>
+            </div>
+            <div class="print-meta-item">
+              <strong data-i18n="print.studioLabel">Studio Name:</strong>
+              <span id="print-studio-display" data-i18n="print.defaultStudio">Studio Staff</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Roster Controls & Data Table -->
+      <section id="roster-section" class="roster-section">
+        <!-- Roster Search Bar -->
+        <div id="roster-search-bar" class="roster-search-bar no-print">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="staff-search-input" class="staff-search-input" data-i18n-placeholder="search.placeholder" placeholder="Search staff by name or role..." data-i18n-aria="search.ariaLabel" aria-label="Search staff by name or role" autocomplete="off" />
+            <button type="button" id="search-clear-btn" class="search-clear-btn" style="display: none;" data-i18n-aria="search.clearAria" aria-label="Clear search">&times;</button>
+          </div>
+          <div id="search-results-count" class="search-results-count" aria-live="polite"></div>
+        </div>
+
+        <!-- Control Bar (Filters & Tools) -->
+        <div id="roster-controls-bar" class="roster-controls-bar no-print">
+          <div class="filter-pills-wrap">
+            <span class="filter-heading" data-i18n="filters.heading">Expiry Horizon Filter:</span>
+            <div class="filter-pills" role="tablist">
+              <button type="button" class="pill-btn active" data-filter="all" id="pill-filter-all" data-i18n="filters.all">All Records</button>
+              <button type="button" class="pill-btn pill-lapsed" data-filter="lapsed" id="pill-filter-lapsed" data-i18n="filters.lapsed">Lapsed</button>
+              <button type="button" class="pill-btn pill-30" data-filter="30" id="pill-filter-30" data-i18n="filters.days30">Next 30 Days</button>
+              <button type="button" class="pill-btn pill-60" data-filter="60" id="pill-filter-60" data-i18n="filters.days60">Next 60 Days</button>
+              <button type="button" class="pill-btn pill-90" data-filter="90" id="pill-filter-90" data-i18n="filters.days90">Next 90 Days</button>
+              <button type="button" class="pill-btn pill-current" data-filter="current" id="pill-filter-current" data-i18n="filters.current">Up to Date</button>
+            </div>
+          </div>
+
+          <div class="roster-actions">
+            <!-- Studio Name for Printout -->
+            <input type="text" id="studio-name-input" class="studio-name-input" data-i18n-placeholder="print.studioPlaceholder" placeholder="Studio Name for Printout" data-i18n-title="print.studioTitle" title="Studio Name for Printout" />
+            <button type="button" id="print-roster-btn" class="tool-btn tool-btn-primary" data-i18n="actions.printRoster">Print Inspection Roster</button>
+            <button type="button" id="export-csv-btn" class="tool-btn" data-i18n="actions.exportCsv">Export CSV</button>
+            <button type="button" id="import-csv-btn" class="tool-btn" data-i18n="actions.importCsv">Import CSV</button>
+            <button type="button" id="export-ics-btn" class="tool-btn" data-i18n="actions.exportIcs">Export Calendar (.ics)</button>
+            <button type="button" id="backup-json-btn" class="tool-btn" data-i18n="actions.backupJson">Backup (JSON)</button>
+            <button type="button" id="restore-json-btn" class="tool-btn" data-i18n="actions.restoreJson">Restore (JSON)</button>
+            <button type="button" id="clear-all-btn" class="tool-btn tool-btn-danger" data-i18n="actions.clearAll">Clear All Records</button>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div id="table-container" class="table-container">
+          <div id="empty-state-notice" class="empty-state-card" style="display: none;">
+            <p id="empty-state-text" data-i18n="table.emptyState">No staff records found. Add your first staff member above or import a CSV.</p>
+          </div>
+
+          <table id="roster-table" class="roster-table" aria-label="Staff training roster" data-i18n-aria="table.ariaRoster">
+            <thead>
+              <tr>
+                <th scope="col" id="col-name" class="sortable-th" tabindex="0" role="columnheader" aria-sort="none" data-sort="name" data-i18n-title="table.sortName" title="Sort by Staff Member Name">
+                  <span class="th-sort-inner">
+                    <span data-i18n="table.colName">Staff Member &amp; Role</span>
+                    <span class="sort-indicator" aria-hidden="true">↕</span>
+                  </span>
+                </th>
+                <th scope="col" id="col-provider" data-i18n="table.colProvider">Training Provider</th>
+                <th scope="col" id="col-date" class="sortable-th" tabindex="0" role="columnheader" aria-sort="none" data-sort="date" data-i18n-title="table.sortDate" title="Sort by Training Date">
+                  <span class="th-sort-inner">
+                    <span data-i18n="table.colDate">Training Date</span>
+                    <span class="sort-indicator" aria-hidden="true">↕</span>
+                  </span>
+                </th>
+                <th scope="col" id="col-expiry" class="sortable-th" tabindex="0" role="columnheader" aria-sort="none" data-sort="expiry" data-i18n-title="table.sortExpiry" title="Sort by Expiry Date">
+                  <span class="th-sort-inner">
+                    <span data-i18n="table.colExpiry">Expires</span>
+                    <span class="sort-indicator" aria-hidden="true">↕</span>
+                  </span>
+                </th>
+                <th scope="col" id="col-status" data-i18n="table.colStatus">Compliance Status</th>
+                <th scope="col" id="col-filing" data-i18n="table.colFiling">Filing Reference</th>
+                <th scope="col" id="col-notes" data-i18n="table.colNotes">Notes</th>
+                <th scope="col" id="col-actions" class="no-print" data-i18n="table.colActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="roster-tbody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Inspection Signature Line (Print Only) -->
+        <div id="print-signature-footer" class="print-only print-signature-footer" aria-hidden="true">
+          <p data-i18n="print.signatureLine">Studio Manager / Owner Signature: ___________________________   Date: ____________</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Import CSV Modal Overlay (In-DOM, No external libs) -->
+    <div id="import-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="import-modal-title" class="modal-title" data-i18n="importModal.title">Import Staff Records from CSV</h2>
+          <button type="button" id="import-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-instruction" data-i18n="importModal.instructions">Upload or drag a CSV file exported from this tracker or formatted with columns: Name, Role, Training Date, Provider, Expiry Date, Renewal Months, Filing Reference, Notes.</p>
+          
+          <div id="csv-dropzone" class="csv-dropzone" tabindex="0">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <div class="dropzone-text">
+              <label for="csv-file-input" class="dropzone-file-btn" data-i18n="importModal.chooseFile">Choose CSV File</label>
+              <input type="file" id="csv-file-input" accept=".csv,text/csv" class="hidden-file-input" />
+              <span class="dropzone-subtext" data-i18n="importModal.dropZoneText">or drag &amp; drop a .csv file here</span>
+            </div>
+          </div>
+
+          <div id="import-preview-section" class="import-preview-section" style="display: none;">
+            <h3 class="preview-title" data-i18n="importModal.previewTitle">CSV Preview</h3>
+            <p id="preview-count-text" class="preview-count-text"></p>
+            <div class="import-mode-selector">
+              <span class="mode-label" data-i18n="importModal.modeLabel">Import Mode:</span>
+              <label class="radio-label">
+                <input type="radio" name="import-mode" value="merge" checked />
+                <span data-i18n="importModal.modeMerge">Merge (add to existing records)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="import-mode" value="replace" />
+                <span data-i18n="importModal.modeReplace">Replace (overwrite all existing records)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="import-cancel-btn" class="tool-btn" data-i18n="importModal.btnCancel">Cancel</button>
+          <button type="button" id="import-confirm-btn" class="tool-btn tool-btn-primary" disabled data-i18n="importModal.btnImport">Execute Import</button>
+        </div>
       </div>
     </div>
-    <button id="add-btn" class="add-btn">Add Record</button>
-  </div>
 
-  <div class="log-controls">
-    <div id="log-count" class="log-count"></div>
-    <div class="log-actions">
-      <button id="export-btn" class="ctrl-btn">Export CSV</button>
-      <button id="clear-btn" class="ctrl-btn ctrl-btn--danger">Clear All</button>
+    <!-- Export CSV Modal Overlay (In-DOM, No external libs) -->
+    <div id="export-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+      <div class="modal-card modal-card-sm">
+        <div class="modal-header">
+          <h2 id="export-modal-title" class="modal-title" data-i18n="exportModal.title">Export Roster to CSV</h2>
+          <button type="button" id="export-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-instruction" data-i18n="exportModal.instruction">Select which records to include in your CSV export:</p>
+          <div class="import-mode-selector">
+            <label class="radio-label">
+              <input type="radio" name="export-scope" value="full" checked />
+              <span id="export-opt-full-label" data-i18n="exportModal.optFull">Full Roster ({count} records)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="export-scope" value="filtered" />
+              <span id="export-opt-filtered-label" data-i18n="exportModal.optFiltered">Current Filtered View ({count} records)</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="export-cancel-btn" class="tool-btn" data-i18n="exportModal.btnCancel">Cancel</button>
+          <button type="button" id="export-confirm-btn" class="tool-btn tool-btn-primary" data-i18n="exportModal.btnExport">Export CSV</button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div id="records-wrap">
-    <div id="empty-state" class="empty-state">No records yet. Add your first staff member above.</div>
-    <table id="records-table" class="log-table" style="display:none">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Certification</th>
-          <th>Completed</th>
-          <th>Expires</th>
-          <th>Status</th>
-          <th>Notes</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="records-body"></tbody>
-    </table>
-  </div>
+    <!-- Generic Confirmation Dialog (In-DOM, No alert/confirm blocks) -->
+    <div id="confirm-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+      <div class="modal-card modal-card-sm">
+        <div class="modal-header">
+          <h2 id="confirm-modal-title" class="modal-title"></h2>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-modal-msg" class="confirm-msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="confirm-cancel-btn" class="tool-btn" data-i18n="confirm.btnCancel">Cancel</button>
+          <button type="button" id="confirm-ok-btn" class="tool-btn tool-btn-danger" data-i18n="confirm.btnConfirm">Confirm</button>
+        </div>
+      </div>
+    </div>
 
-</div>
-<script src="/tools/bbp-training-tracker/js/app.js"></script>
-</body>
+    <!-- Staff Training Pass Modal Overlay (Printable Pass Card) -->
+    <div id="pass-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="pass-modal-title">
+      <div class="modal-card modal-card-pass">
+        <div class="modal-header">
+          <h2 id="pass-modal-title" class="modal-title" data-i18n="passModal.title">Staff Bloodborne Pathogen Training Pass</h2>
+          <button type="button" id="pass-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="pass-card-print-target" class="pass-card">
+            <div class="pass-card-header">
+              <span class="pass-badge" data-i18n="passModal.cardBadge">BBP COMPLIANCE PASS</span>
+              <h3 class="pass-studio-heading" id="pass-studio-name"></h3>
+            </div>
+            <div class="pass-hero-name">
+              <span class="pass-name" id="pass-staff-name"></span>
+              <span class="pass-role-badge" id="pass-staff-role"></span>
+            </div>
+            <div class="pass-grid">
+              <div class="pass-item">
+                <span class="pass-label" data-i18n="passModal.providerLabel">Training Provider:</span>
+                <strong class="pass-val" id="pass-provider"></strong>
+              </div>
+              <div class="pass-item">
+                <span class="pass-label" data-i18n="passModal.completedLabel">Completion Date:</span>
+                <strong class="pass-val" id="pass-completed-date"></strong>
+              </div>
+              <div class="pass-item">
+                <span class="pass-label" data-i18n="passModal.expiryLabel">Valid Through / Expiry:</span>
+                <strong class="pass-val" id="pass-expiry-date"></strong>
+              </div>
+              <div class="pass-item">
+                <span class="pass-label" data-i18n="passModal.cycleLabel">Renewal Cycle:</span>
+                <strong class="pass-val" id="pass-renewal-cycle"></strong>
+              </div>
+              <div class="pass-item pass-item-full">
+                <span class="pass-label" data-i18n="passModal.statusLabel">Compliance Status:</span>
+                <span id="pass-status-badge" class="badge-status"></span>
+              </div>
+              <div class="pass-item pass-item-full">
+                <span class="pass-label" data-i18n="passModal.filingLabel">Filing Location:</span>
+                <span class="pass-val" id="pass-filing-ref"></span>
+              </div>
+            </div>
+            <div class="pass-footer-row">
+              <div class="pass-footer-text">
+                <div class="pass-notice" data-i18n="passModal.attestationNotice">This pass certifies bloodborne pathogen and infection control training completion logged in the official studio administrative compliance record. Keep this card in the personal artist station binder for health and safety inspections.</div>
+                <div class="pass-signature" data-i18n="passModal.signatureLine">Studio Manager / Lead Signature: _______________________ Date: ____________</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="pass-print-btn" class="tool-btn tool-btn-primary" data-i18n="passModal.btnPrint">Print Training Pass</button>
+          <button type="button" id="pass-close-btn" class="tool-btn" data-i18n="passModal.btnClose">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Restore JSON Backup Modal Overlay -->
+    <div id="restore-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="restore-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="restore-modal-title" class="modal-title" data-i18n="backupModal.title">Restore Tracker Data from JSON</h2>
+          <button type="button" id="restore-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-instruction" data-i18n="backupModal.instruction">Select a previously exported JSON backup file. This will restore studio profiles and staff records.</p>
+          <div id="restore-dropzone" class="csv-dropzone" tabindex="0">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <div class="dropzone-text">
+              <label for="restore-file-input" class="dropzone-file-btn" data-i18n="backupModal.chooseFile">Choose Backup JSON File</label>
+              <input type="file" id="restore-file-input" accept=".json,application/json" class="hidden-file-input" />
+              <span class="dropzone-subtext" data-i18n="backupModal.dropZoneText">or drag &amp; drop a .json backup file here</span>
+            </div>
+          </div>
+          <div id="restore-preview-section" class="import-preview-section" style="display: none;">
+            <h3 class="preview-title" data-i18n="backupModal.previewTitle">Backup Preview</h3>
+            <p id="restore-preview-count-text" class="preview-count-text"></p>
+            <div class="import-mode-selector">
+              <span class="mode-label" data-i18n="backupModal.modeLabel">Restore Mode:</span>
+              <label class="radio-label">
+                <input type="radio" name="restore-mode" value="merge" checked />
+                <span data-i18n="backupModal.modeMerge">Merge (add to existing profiles and records)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="restore-mode" value="replace" />
+                <span data-i18n="backupModal.modeReplace">Full Restore (replace all profiles and records)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="restore-cancel-btn" class="tool-btn" data-i18n="backupModal.btnCancel">Cancel</button>
+          <button type="button" id="restore-confirm-btn" class="tool-btn tool-btn-primary" disabled data-i18n="backupModal.btnRestore">Execute Restore</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Studio Profile Modal -->
+    <div id="profile-add-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="profile-add-title">
+      <div class="modal-card modal-card-sm">
+        <div class="modal-header">
+          <h2 id="profile-add-title" class="modal-title" data-i18n="profile.addModalTitle">Create New Studio Profile</h2>
+          <button type="button" id="profile-add-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-instruction" data-i18n="profile.addModalInstruction">Add a new profile to track records for another room, department, or location separately.</p>
+          <div class="form-field">
+            <label for="new-profile-name-input" class="field-label">
+              <span data-i18n="profile.profileNameLabel">Profile Name</span>
+              <span class="required-star">*</span>
+            </label>
+            <input type="text" id="new-profile-name-input" class="input-field" data-i18n-placeholder="profile.profileNamePlaceholder" placeholder="e.g. Downtown Piercing Studio, Guest Artists, Room 2" autocomplete="off" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="profile-add-cancel-btn" class="tool-btn" data-i18n="confirm.btnCancel">Cancel</button>
+          <button type="button" id="profile-add-confirm-btn" class="tool-btn tool-btn-primary" data-i18n="profile.btnAddSave">Create Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage Studio Profile Modal -->
+    <div id="profile-manage-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="profile-manage-title">
+      <div class="modal-card modal-card-sm">
+        <div class="modal-header">
+          <h2 id="profile-manage-title" class="modal-title" data-i18n="profile.manageModalTitle">Manage Studio Profile</h2>
+          <button type="button" id="profile-manage-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-field">
+            <label for="manage-profile-name-input" class="field-label" data-i18n="profile.renameLabel">Rename Current Profile</label>
+            <div class="manage-profile-row">
+              <input type="text" id="manage-profile-name-input" class="input-field" autocomplete="off" />
+              <button type="button" id="profile-rename-btn" class="tool-btn tool-btn-primary" data-i18n="profile.btnSaveRename">Save Name</button>
+            </div>
+          </div>
+          <div class="manage-profile-danger-zone">
+            <h4 class="danger-zone-title" data-i18n="profile.deleteHeading">Delete Current Profile</h4>
+            <p id="delete-profile-warning-text" class="danger-zone-desc" data-i18n="profile.deleteWarning">Deleting this profile will permanently remove its staff records.</p>
+            <button type="button" id="profile-delete-btn" class="tool-btn tool-btn-danger" data-i18n="profile.btnDeleteProfile">Delete Profile</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="profile-manage-close-btn" class="tool-btn" data-i18n="confirm.btnCancel">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspection Audit Readiness Checklist Modal -->
+    <div id="audit-modal-overlay" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
+      <div class="modal-card modal-card-lg">
+        <div class="modal-header">
+          <div>
+            <h2 id="audit-modal-title" class="modal-title" data-i18n="audit.modalTitle">Studio Inspection Audit Readiness</h2>
+            <p class="modal-subtitle" data-i18n="audit.modalSubtitle">Self-audit verification against administrative bloodborne pathogen compliance practices.</p>
+          </div>
+          <button type="button" id="audit-close-x" class="modal-close-btn" aria-label="Close dialog" data-i18n-aria="common.ariaCloseDialog">&times;</button>
+        </div>
+        <div class="modal-body" id="audit-print-target">
+          <!-- Overall Rating Score Box -->
+          <div class="audit-score-card" id="audit-score-card">
+            <div class="audit-score-header">
+              <span class="audit-score-label" data-i18n="audit.scoreLabel">Audit Readiness Score:</span>
+              <span class="audit-score-badge" id="audit-overall-badge"></span>
+            </div>
+            <div class="audit-progress-bar-wrap">
+              <div class="audit-progress-bar" id="audit-progress-bar"></div>
+            </div>
+            <div class="audit-score-summary" id="audit-score-summary"></div>
+          </div>
+
+          <!-- 6 Verification Items -->
+          <div class="audit-checklist-grid" id="audit-list-container">
+            <!-- Dynamically populated checklist items -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="audit-print-btn" class="tool-btn tool-btn-primary" data-i18n="audit.btnPrint">Print Audit Checklist</button>
+          <button type="button" id="audit-close-btn" class="tool-btn" data-i18n="audit.btnClose">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staff Inspection QR Pass Modal Overlay -->
+
+    <!-- Batch Renewal Modal Overlay -->
+
+    <!-- Team Renewal Email Alert Modal Overlay -->
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Scripts loaded synchronously in strict document order -->
+    <script src="./js/i18n.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
 </html>
