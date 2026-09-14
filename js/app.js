@@ -1733,6 +1733,22 @@
     themeToggleBtn.textContent = isDark ? t('header.themeToggleLight') : t('header.themeToggleDark');
   }
 
+  // Language switcher. Inside this closure on purpose: the roster, status pills and cards
+  // are rendered in JS, so a language change has to redraw them, not only re-apply the
+  // data-i18n attributes. The choice is stored under the key the whole tool suite uses.
+  const languageSelect = document.getElementById('language-select');
+  if (languageSelect && window.i18n) {
+    const available = Object.keys(window.i18n.translations || {});
+    const active = window.i18n.getLanguage();
+    if (available.indexOf(active) !== -1) languageSelect.value = active;
+    languageSelect.addEventListener('change', () => {
+      if (available.indexOf(languageSelect.value) === -1) return;
+      window.i18n.setLanguage(languageSelect.value);
+      renderTable();
+      renderProfileOptions();
+    });
+  }
+
   themeToggleBtn.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme') || 'dark';
     const next = current === 'dark' ? 'light' : 'dark';
@@ -1817,22 +1833,4 @@
     init();
   }
 
-})();
-
-/* ── Language switcher ───────────────────────────────────────────
-   The dictionaries and window.i18n.setLanguage() shipped without a control, so a
-   visitor could only get another language by changing their browser. The roster,
-   status pills and cards are rendered in JS, so they are redrawn after a switch. */
-(function () {
-  var sel = document.getElementById('language-select');
-  if (!sel || !window.i18n) return;
-  var langs = Object.keys(window.i18n.translations || {});
-  var current = window.i18n.getLanguage();
-  if (langs.indexOf(current) !== -1) sel.value = current;
-  sel.addEventListener('change', function () {
-    if (langs.indexOf(sel.value) === -1) return;
-    window.i18n.setLanguage(sel.value);
-    if (typeof renderTable === 'function') renderTable();
-    if (typeof renderProfileOptions === 'function') renderProfileOptions();
-  });
 })();
