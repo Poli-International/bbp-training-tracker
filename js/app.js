@@ -1338,9 +1338,6 @@
   profileAddCancelBtn.addEventListener('click', () => {
     profileAddModal.style.display = 'none';
   });
-  document.getElementById('profile-add-close-x').addEventListener('click', () => {
-    profileAddModal.style.display = 'none';
-  });
 
   profileAddConfirmBtn.addEventListener('click', () => {
     const name = newProfileNameInput.value.trim();
@@ -1373,9 +1370,6 @@
   });
 
   profileManageCloseBtn.addEventListener('click', () => {
-    profileManageModal.style.display = 'none';
-  });
-  document.getElementById('profile-manage-close-x').addEventListener('click', () => {
     profileManageModal.style.display = 'none';
   });
 
