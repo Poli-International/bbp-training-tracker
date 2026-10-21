@@ -17,8 +17,8 @@
       header: {
         badge: "BBP Compliance Tracking",
         themeToggleAria: "Toggle visual theme",
-        themeToggleLight: "☀️ Light Mode",
-        themeToggleDark: "🌙 Dark Mode",
+        themeToggleLight: "Light Mode",
+        themeToggleDark: "Dark Mode",
         title: "Bloodborne Pathogen Training Tracker",
         subtitle: "Log staff training dates, providers, and certificate filing locations. Monitor 30, 60, and 90-day renewal deadlines with inspection-ready printouts and CSV portability.",
         storageNotice: "Data stays entirely in your browser: zero accounts, zero cloud transmission."
@@ -100,7 +100,7 @@
       },
       actions: {
         printRoster: "Print Inspection Roster",
-        batchRenew: "⚡ Batch Renew Team",
+        batchRenew: "Batch Renew Team",
         exportCsv: "Export CSV",
         importCsv: "Import CSV",
         exportIcs: "Export Calendar (.ics)",
@@ -268,7 +268,7 @@
         deletePreventSingle: "You must keep at least one studio profile."
       },
       audit: {
-        btnTitle: "📋 Inspection Audit Checklist",
+        btnTitle: "Inspection Audit Checklist",
         modalTitle: "Studio Inspection Audit Readiness",
         modalSubtitle: "A check of your own record keeping: what is missing or lapsed in this tracker. It does not assess compliance with any regulation.",
         statusReady: "INSPECTION READY",
@@ -341,8 +341,8 @@
       header: {
         badge: "Suivi de conformité BBP",
         themeToggleAria: "Basculer le thème visuel",
-        themeToggleLight: "☀️ Mode clair",
-        themeToggleDark: "🌙 Mode sombre",
+        themeToggleLight: "Mode clair",
+        themeToggleDark: "Mode sombre",
         title: "Suivi des formations aux pathogènes sanguins",
         subtitle: "Enregistrez les dates de formation de l'équipe, les formateurs et les lieux de classement des certificats. Surveillez les échéances de renouvellement à 30, 60 et 90 jours avec impressions prêtes pour le contrôle sanitaire et portabilité CSV.",
         storageNotice: "Les données restent exclusivement dans votre navigateur: zéro compte, zéro transfert cloud."
@@ -424,7 +424,7 @@
       },
       actions: {
         printRoster: "Imprimer le registre d'inspection",
-        batchRenew: "⚡ Renouvellement groupé de l'équipe",
+        batchRenew: "Renouvellement groupé de l'équipe",
         exportCsv: "Exporter en CSV",
         importCsv: "Importer un CSV",
         exportIcs: "Exporter le calendrier (.ics)",
@@ -592,7 +592,7 @@
         deletePreventSingle: "Vous devez conserver au moins un profil de studio.",
       },
       audit: {
-        btnTitle: "📋 Grille d'auto-évaluation d'inspection",
+        btnTitle: "Grille d'auto-évaluation d'inspection",
         modalTitle: "Préparation au contrôle sanitaire du studio",
         modalSubtitle: "Un contrôle de votre propre tenue de registre : ce qui manque ou a expiré dans cet outil. Il n'évalue pas la conformité à une réglementation.",
         statusReady: "PRÊT POUR LE CONTRÔLE",
@@ -665,8 +665,8 @@
       header: {
         badge: "Monitoraggio conformità BBP",
         themeToggleAria: "Attiva o disattiva tema visivo",
-        themeToggleLight: "☀️ Modalità chiara",
-        themeToggleDark: "🌙 Modalità scura",
+        themeToggleLight: "Modalità chiara",
+        themeToggleDark: "Modalità scura",
         title: "Registro formazione patogeni ematici",
         subtitle: "Registra le date dei corsi dello staff, gli enti formativi e le posizioni di archiviazione dei certificati. Monitora le scadenze a 30, 60 e 90 giorni con stampe pronte per l'ispezione e portabilità CSV.",
         storageNotice: "I dati rimangono esclusivamente nel tuo browser: zero account, zero trasmissione cloud."
@@ -748,7 +748,7 @@
       },
       actions: {
         printRoster: "Stampa registro per ispezione",
-        batchRenew: "⚡ Rinnovo cumulativo team",
+        batchRenew: "Rinnovo cumulativo team",
         exportCsv: "Esporta CSV",
         importCsv: "Importa CSV",
         exportIcs: "Esporta calendario (.ics)",
@@ -916,7 +916,7 @@
         deletePreventSingle: "È obbligatorio mantenere almeno un profilo studio.",
       },
       audit: {
-        btnTitle: "📋 Lista di controllo per ispezione",
+        btnTitle: "Lista di controllo per ispezione",
         modalTitle: "Verifica preparazione all'ispezione sanitaria",
         modalSubtitle: "Un controllo della tua tenuta dei registri: cosa manca o è scaduto in questo strumento. Non valuta la conformità a nessuna normativa.",
         statusReady: "PRONTO PER L'ISPEZIONE",
@@ -989,8 +989,8 @@
       header: {
         badge: "BBP-Konformitätsübersicht",
         themeToggleAria: "Farbschema wechseln",
-        themeToggleLight: "☀️ Heller Modus",
-        themeToggleDark: "🌙 Dunkler Modus",
+        themeToggleLight: "Heller Modus",
+        themeToggleDark: "Dunkler Modus",
         title: "Schulungsnachweis Infektionsschutz & BBP",
         subtitle: "Protokollieren Sie Schulungsdaten des Personals, Lehrgangsträger und Zertifikatsablageorte. Überwachen Sie 30-, 60- und 90-Tage-Ablauffristen mit druckfertigen Inspektionslisten und CSV-Portabilität.",
         storageNotice: "Die Daten verbleiben vollständig in Ihrem Browser: keine Konten, keine Cloud-Übertragung."
@@ -1072,7 +1072,7 @@
       },
       actions: {
         printRoster: "Inspektionsliste drucken",
-        batchRenew: "⚡ Team gesammelt verlängern",
+        batchRenew: "Team gesammelt verlängern",
         exportCsv: "CSV exportieren",
         importCsv: "CSV importieren",
         exportIcs: "Kalender (.ics) exportieren",
@@ -1240,7 +1240,7 @@
         deletePreventSingle: "Es muss mindestens ein Studioprofil erhalten bleiben.",
       },
       audit: {
-        btnTitle: "📋 Inspektions-Audit-Checkliste",
+        btnTitle: "Inspektions-Audit-Checkliste",
         modalTitle: "Vorbereitung auf die behördliche Hygieneinspektion",
         modalSubtitle: "Eine Prüfung Ihrer eigenen Aktenführung: was in diesem Tool fehlt oder abgelaufen ist. Sie bewertet keine Einhaltung von Vorschriften.",
         statusReady: "INSPEKTIONSBEREIT",
@@ -1313,8 +1313,8 @@
       header: {
         badge: "Control de cumplimiento BBP",
         themeToggleAria: "Alternar modo visual",
-        themeToggleLight: "☀️ Aspecto claro",
-        themeToggleDark: "🌙 Aspecto oscuro",
+        themeToggleLight: "Aspecto claro",
+        themeToggleDark: "Aspecto oscuro",
         title: "Registro de formación sobre patógenos hemáticos",
         subtitle: "Registre las fechas de acreditación del personal, entidades formadoras y ubicación de certificados. Supervise los vencimientos a 30, 60 y 90 días con informes listos para inspecciones y descarga en CSV.",
         storageNotice: "Toda la información se mantiene exclusivamente en su navegador: sin cuentas, sin envíos a la nube."
@@ -1396,7 +1396,7 @@
       },
       actions: {
         printRoster: "Imprimir informe de inspección",
-        batchRenew: "⚡ Renovación por bloque del equipo",
+        batchRenew: "Renovación por bloque del equipo",
         exportCsv: "Descargar CSV",
         importCsv: "Cargar archivo CSV",
         exportIcs: "Descargar agenda (.ics)",
@@ -1564,7 +1564,7 @@
         deletePreventSingle: "Es imprescindible mantener al menos un perfil de estudio activo.",
       },
       audit: {
-        btnTitle: "📋 Lista de comprobación para inspección sanitaria",
+        btnTitle: "Lista de comprobación para inspección sanitaria",
         modalTitle: "Preparación de la inspección higiénico-sanitaria",
         modalSubtitle: "Una comprobación de su propio registro: qué falta o ha caducado en esta herramienta. No evalúa el cumplimiento de ninguna normativa.",
         statusReady: "PREPARADO PARA INSPECCIÓN",
@@ -1637,8 +1637,8 @@
       header: {
         badge: "BBP-nalevingsregistratie",
         themeToggleAria: "Wissel weergavethema",
-        themeToggleLight: "☀️ Lichte weergave",
-        themeToggleDark: "🌙 Donkere weergave",
+        themeToggleLight: "Lichte weergave",
+        themeToggleDark: "Donkere weergave",
         title: "BBP-scholingstracker voor de studio",
         subtitle: "Registreer cursusdata van teamleden, opleidingsinstanties en bewaarplekken van certificaten. Bewaak herinneringstermijnen van 30, 60 en 90 dagen met printbare inspectielijsten en CSV-export.",
         storageNotice: "Gegevens blijven uitsluitend in uw eigen browser opgeslagen: geen accounts, geen doorgifte naar de cloud."
@@ -1720,7 +1720,7 @@
       },
       actions: {
         printRoster: "Inspectielijst printen",
-        batchRenew: "⚡ Team gezamenlijk verlengen",
+        batchRenew: "Team gezamenlijk verlengen",
         exportCsv: "Exporteer CSV",
         importCsv: "Importeer CSV",
         exportIcs: "Exporteer kalender (.ics)",
@@ -1888,7 +1888,7 @@
         deletePreventSingle: "Er moet ten minste één studioprofiel behouden blijven.",
       },
       audit: {
-        btnTitle: "📋 Inspectie-auditcontrolelijst",
+        btnTitle: "Inspectie-auditcontrolelijst",
         modalTitle: "Gereedheid voor inspectie en handhaving",
         modalSubtitle: "Een controle van je eigen administratie: wat ontbreekt of verlopen is in deze tool. Het beoordeelt geen naleving van regelgeving.",
         statusReady: "GEREED VOOR INSPECTIE",
@@ -1961,8 +1961,8 @@
       header: {
         badge: "Controlo de conformidade BBP",
         themeToggleAria: "Alternar modo de visualização",
-        themeToggleLight: "☀️ Esquema claro",
-        themeToggleDark: "🌙 Esquema escuro",
+        themeToggleLight: "Esquema claro",
+        themeToggleDark: "Esquema escuro",
         title: "Registo de formação em agentes patogénicos sanguíneos",
         subtitle: "Registe as datas das ações de formação da equipa, formadores e locais de arquivo dos certificados. Acompanhe prazos de renovação a 30, 60 e 90 dias com relatórios impressos para vistorias e ficheiros CSV.",
         storageNotice: "Os registos permanecem unicamente no seu navegador: sem necessidade de conta, sem envio para servidores externos."
@@ -2044,7 +2044,7 @@
       },
       actions: {
         printRoster: "Imprimir listagem de inspeção",
-        batchRenew: "⚡ Renovação coletiva da equipa",
+        batchRenew: "Renovação coletiva da equipa",
         exportCsv: "Exportar para CSV",
         importCsv: "Importar de CSV",
         exportIcs: "Exportar para agenda (.ics)",
@@ -2212,7 +2212,7 @@
         deletePreventSingle: "É obrigatório manter no mínimo um perfil de estúdio configurado.",
       },
       audit: {
-        btnTitle: "📋 Lista de verificação para fiscalizações",
+        btnTitle: "Lista de verificação para fiscalizações",
         modalTitle: "Auditoria interna de prontidão sanitária",
         modalSubtitle: "Uma verificação do seu próprio registo: o que falta ou expirou nesta ferramenta. Não avalia o cumprimento de qualquer regulamento.",
         statusReady: "PRONTO PARA VISTORIA",
@@ -2285,8 +2285,8 @@
       header: {
         badge: "การติดตามการปฏิบัติตามข้อกำหนด BBP",
         themeToggleAria: "สลับธีมการแสดงผล",
-        themeToggleLight: "☀️ โหมดสว่าง",
-        themeToggleDark: "🌙 โหมดมืด",
+        themeToggleLight: "โหมดสว่าง",
+        themeToggleDark: "โหมดมืด",
         title: "ระบบติดตามการฝึกอบรมเชื้อก่อโรคทางเลือด",
         subtitle: "บันทึกวันที่อบรมของบุคลากร ผู้ให้บริการ และตำแหน่งจัดเก็บใบรับรอง ติดตามกำหนดการต่ออายุ 30, 60 และ 90 วัน พร้อมเอกสารพิมพ์ที่พร้อมสำหรับการตรวจสอบและไฟล์ CSV ที่พกพาได้",
         storageNotice: "ข้อมูลอยู่ในเบราว์เซอร์ของคุณทั้งหมด: ไม่ต้องมีบัญชี ไม่มีการส่งขึ้นคลาวด์"
@@ -2368,7 +2368,7 @@
       },
       actions: {
         printRoster: "พิมพ์รายชื่อสำหรับการตรวจสอบ",
-        batchRenew: "⚡ ต่ออายุทีมทั้งหมดพร้อมกัน",
+        batchRenew: "ต่ออายุทีมทั้งหมดพร้อมกัน",
         exportCsv: "ส่งออก CSV",
         importCsv: "นำเข้า CSV",
         exportIcs: "ส่งออกปฏิทิน (.ics)",
@@ -2536,7 +2536,7 @@
         deletePreventSingle: "คุณต้องมีโปรไฟล์สตูดิโออย่างน้อยหนึ่งโปรไฟล์"
       },
       audit: {
-        btnTitle: "📋 รายการตรวจสอบการเตรียมความพร้อมก่อนการตรวจสอบ",
+        btnTitle: "รายการตรวจสอบการเตรียมความพร้อมก่อนการตรวจสอบ",
         modalTitle: "ความพร้อมของการตรวจสอบสตูดิโอ",
         modalSubtitle: "การตรวจสอบการจัดทำบันทึกของคุณเอง: สิ่งใดขาดหายหรือหมดอายุในตัวติดตามนี้ ไม่ได้ประเมินการปฏิบัติตามกฎระเบียบใด ๆ",
         statusReady: "พร้อมสำหรับการตรวจสอบ",
