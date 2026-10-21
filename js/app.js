@@ -300,13 +300,13 @@
     if (!roleSuggestionsDatalist || !providerSuggestionsDatalist) return;
 
     const standardRoles = [
-      'Body Piercer',
-      'Tattoo Artist',
-      'Counter Staff',
-      'Apprentice Piercer',
-      'Studio Manager',
-      'Guest Artist',
-      'Sterilization Technician'
+      t('toasts.roleBodyPiercer'),
+      t('toasts.roleTattooArtist'),
+      t('toasts.roleCounterStaff'),
+      t('toasts.roleApprenticePiercer'),
+      t('toasts.roleStudioManager'),
+      t('toasts.roleGuestArtist'),
+      t('toasts.roleSterilizationTech')
     ];
 
     const standardProviders = [
@@ -1188,8 +1188,12 @@
       expDate.setDate(expDate.getDate() + 1);
       const cleanEnd = `${expDate.getFullYear()}${pad(expDate.getMonth() + 1)}${pad(expDate.getDate())}`;
 
-      const summary = `BBP Renewal Due: ${rec.name}${rec.role ? ` (${rec.role})` : ''}`;
-      const desc = `Bloodborne Pathogen certification renewal due for ${rec.name}.\\nStudio: ${studioName}\\nProvider: ${rec.provider}\\nLast Completed: ${rec.completed}\\nFiling Ref: ${rec.filingRef || 'N/A'}`;
+      const summary = `${t('toasts.icsSummary', { name: rec.name })}${rec.role ? ` (${rec.role})` : ''}`;
+      const desc = `${t('toasts.icsDesc', { name: rec.name })}\
+${t('toasts.icsStudio')}: ${studioName}\
+${t('toasts.icsProvider')}: ${rec.provider}\
+${t('toasts.icsLastCompleted')}: ${rec.completed}\
+${t('toasts.icsFilingRef')}: ${rec.filingRef || t('toasts.icsNA')}`;
 
       return [
         'BEGIN:VEVENT',
@@ -1204,12 +1208,12 @@
         'BEGIN:VALARM',
         'TRIGGER:-P30D',
         'ACTION:DISPLAY',
-        `DESCRIPTION:${escapeIcs(summary)} - 30 Day Advance Notice`,
+        `DESCRIPTION:${escapeIcs(summary)} - ${t('toasts.icsAlarm30')}`,
         'END:VALARM',
         'BEGIN:VALARM',
         'TRIGGER:-P7D',
         'ACTION:DISPLAY',
-        `DESCRIPTION:${escapeIcs(summary)} - 7 Day Final Notice`,
+        `DESCRIPTION:${escapeIcs(summary)} - ${t('toasts.icsAlarm7')}`,
         'END:VALARM',
         'END:VEVENT'
       ].join('\r\n');
