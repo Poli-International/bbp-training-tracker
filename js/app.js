@@ -386,7 +386,7 @@
     return {
       key: 'current',
       category: 'current',
-      symbol: '✓',
+      symbol: '<svg class=ti-i width=1.15em height=1.15em aria-hidden=true style=vertical-align:-.18em;flex:none><use href=../shared/icons.svg#i-check></use></svg>',
       badgeClass: 'status-badge-current',
       daysLeft: days,
       label: t('status.current', { days: days })
@@ -1680,7 +1680,7 @@ ${t('toasts.icsFilingRef')}: ${rec.filingRef || t('toasts.icsNA')}`;
     }
 
     auditListContainer.innerHTML = checks.map(c => {
-      const icon = c.passed ? '✓' : '⚠️';
+      const icon = c.passed ? '<svg class=ti-i width=1.15em height=1.15em aria-hidden=true style=vertical-align:-.18em;flex:none><use href=../shared/icons.svg#i-check></use></svg>' : '<svg class=ti-i width=1.15em height=1.15em aria-hidden=true style=vertical-align:-.18em;flex:none><use href=../shared/icons.svg#i-warn></use></svg>';
       const actionHtml = c.actionKey ? `<button type="button" class="audit-check-action-btn" data-action="${c.actionKey}" data-filter="${c.actionFilter || ''}">${escapeHtml(c.actionLabel)}</button>` : '';
 
       return `
